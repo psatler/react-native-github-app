@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Keyboard, ActivityIndicator } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import Reactotron from 'reactotron-react-native';
 import api from '../../services/api';
 import {
   Container,
@@ -19,6 +19,16 @@ import {
 } from './styles';
 
 class Main extends Component {
+  static navigationOptions = {
+    title: 'Users',
+  };
+
+  static propTypes = {
+    navigation: PropTypes.shape({
+      navigate: PropTypes.func,
+    }).isRequired,
+  };
+
   state = {
     newUser: '',
     users: [],
@@ -67,9 +77,15 @@ class Main extends Component {
     Keyboard.dismiss(); // making the keyboard disappear after clicking the plus button
   };
 
+  handleNavigate = user => {
+    const { navigation } = this.props;
+
+    // pass the screen name you want to navigate to
+    navigation.navigate('User', { user });
+  };
+
   render() {
     const { newUser, users, loading } = this.state;
-    Reactotron.log(loading);
     return (
       <Container>
         <Form>
@@ -99,7 +115,7 @@ class Main extends Component {
               <Avatar source={{ uri: item.avatar }} />
               <Name>{item.name} </Name>
               <Bio> {item.bio} </Bio>
-              <ProfileButton onPress={() => {}}>
+              <ProfileButton onPress={() => this.handleNavigate(item)}>
                 <ProfileButtonText>See profile</ProfileButtonText>
               </ProfileButton>
             </User>
@@ -109,9 +125,5 @@ class Main extends Component {
     );
   }
 }
-
-Main.navigationOptions = {
-  title: 'Users',
-};
 
 export default Main;

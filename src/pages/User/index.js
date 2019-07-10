@@ -1,7 +1,11 @@
 import React from 'react';
 import { View, Text } from 'react-native';
 
-const User = () => {
+import Reactotron from 'reactotron-react-native';
+
+const User = ({ navigation }) => {
+  Reactotron.log(navigation.getParam('user'));
+
   return (
     <View>
       <Text>User</Text>
