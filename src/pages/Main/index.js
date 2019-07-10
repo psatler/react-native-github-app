@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Keyboard } from 'react-native';
+import { Keyboard, ActivityIndicator } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import Reactotron from 'reactotron-react-native';
 import api from '../../services/api';
@@ -21,11 +21,16 @@ class Main extends Component {
   state = {
     newUser: '',
     users: [],
+    loading: false,
   };
 
   handleAddUser = async () => {
     const { users, newUser } = this.state;
     const response = await api.get(`/users/${newUser}`);
+
+    this.setState({
+      loading: true,
+    });
 
     const data = {
       name: response.data.name,
@@ -37,13 +42,15 @@ class Main extends Component {
     this.setState({
       users: [...users, data],
       newUser: '',
+      loading: false,
     });
 
     Keyboard.dismiss(); // making the keyboard disappear after clicking the plus button
   };
 
   render() {
-    const { newUser, users } = this.state;
+    const { newUser, users, loading } = this.state;
+    Reactotron.log(loading);
     return (
       <Container>
         <Form>
@@ -56,8 +63,12 @@ class Main extends Component {
             returnKeyType="send"
             onSubmitEditing={this.handleAddUser}
           />
-          <SubmitButton onPress={this.handleAddUser}>
-            <Icon name="add" size={20} color="#FFF" />
+          <SubmitButton loading={loading} onPress={this.handleAddUser}>
+            {loading ? (
+              <ActivityIndicator color="#FFF" />
+            ) : (
+              <Icon name="add" size={20} color="#FFF" />
+            )}
           </SubmitButton>
         </Form>
 
