@@ -1,18 +1,13 @@
 import React, { Fragment } from 'react';
 import { StyleSheet, View, Text } from 'react-native';
 
+import './config/ReactotronConfig';
 import Reactotron from 'reactotron-react-native';
 
-import './config/ReactotronConfig';
-
-Reactotron.warn('hello rendering world');
+import Routes from './routes';
 
 const App = () => {
-  return (
-    <View>
-      <Text>Hfdsff wLRD!</Text>
-    </View>
-  );
+  return <Routes />;
 };
 
 const styles = StyleSheet.create({});
