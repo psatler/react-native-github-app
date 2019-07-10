@@ -2,7 +2,6 @@ import React, { Fragment } from 'react';
 import { StyleSheet, StatusBar } from 'react-native';
 
 import './config/ReactotronConfig';
-import Reactotron from 'reactotron-react-native';
 
 import Routes from './routes';
 
