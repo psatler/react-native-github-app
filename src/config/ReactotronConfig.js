@@ -5,7 +5,8 @@ if (__DEV__) {
     .useReactNative() // add all built-in react native plugins
     .connect(); // let's connect!
 
+  console.tron = Reactotron;
+  // Reactotron.clear();
   // console.tron = tron;
-
   // tron.clear();
 }

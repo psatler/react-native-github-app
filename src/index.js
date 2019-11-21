@@ -6,6 +6,7 @@ import './config/ReactotronConfig';
 import Routes from './routes';
 
 const App = () => {
+  // console.tron.log('Here!');
   return (
     <Fragment>
       <StatusBar barStyle="light-content" backgroundColor="#7159c1" />
