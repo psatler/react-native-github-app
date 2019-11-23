@@ -32,6 +32,7 @@ export default class User extends Component {
     stars: [],
     loading: true,
     page: 1,
+    refreshing: false, // used by the pull to refresh feature
   };
 
   async componentDidMount() {
@@ -52,10 +53,11 @@ export default class User extends Component {
       stars: page > 1 ? [...stars, ...response.data] : response.data,
       loading: false,
       page,
+      refreshing: false,
     });
   };
 
-  loadMore = async () => {
+  loadMore = () => {
     // console.tron.log('Loading more...');
     const { page } = this.state; // getting the current page
     const nextPage = page + 1;
@@ -63,8 +65,18 @@ export default class User extends Component {
     this.loadFavoriteRepos(nextPage);
   };
 
+  pullToRefresh = () => {
+    this.setState(
+      {
+        refreshing: true,
+        stars: [], // clearing it out so the list blinks on screen giving a sensation of update
+      },
+      this.loadFavoriteRepos
+    );
+  };
+
   render() {
-    const { stars, loading } = this.state;
+    const { stars, loading, refreshing } = this.state;
     const { navigation } = this.props;
     const user = navigation.getParam('user');
     return (
@@ -79,6 +91,8 @@ export default class User extends Component {
           <Loading />
         ) : (
           <Stars
+            onRefresh={this.pullToRefresh}
+            refreshing={refreshing}
             onEndReachedThreshold={0.2} // trigger the method in the onEndReached prop when it gets at 20% of the end of list
             onEndReached={this.loadMore}
             data={stars}
