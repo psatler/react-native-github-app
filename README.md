@@ -17,7 +17,7 @@ about the repositories inserted by the user.
 On the profile page it is displayed the repositories the user has starred on Github.
 The documentation for the github stars can be found [here](https://developer.github.com/v3/activity/starring/#list-repositories-being-starred).
 
-## Features
+## Some dependecies used
 
 - ESLint, Prettier, EditorConfig
 - Styled Components
@@ -26,3 +26,13 @@ The documentation for the github stars can be found [here](https://developer.git
 - Prop-types
 - Axios
 - Async Storage to save and load saved list of repositories
+
+## Features
+
+- Infinite scroll on the details page listing the user's favorite repositories (starred ones)
+- Pull to refresh
+- Open the favorite repo in a webview to get more details of it
+
+## License
+
+This project is licensed under the terms of the [MIT License](https://opensource.org/licenses/MIT) © Pablo Satler 2019
