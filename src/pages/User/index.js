@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-import { ActivityIndicator } from 'react-native';
 import PropTypes from 'prop-types';
-// import Reactotron from 'reactotron-react-native';
 import api from '../../services/api';
 import {
   Container,
@@ -33,22 +31,37 @@ export default class User extends Component {
   state = {
     stars: [],
     loading: true,
+    page: 1,
   };
 
   async componentDidMount() {
+    this.loadFavoriteRepos();
+  }
+
+  loadFavoriteRepos = async (page = 1) => {
     const { navigation } = this.props;
+    const { stars } = this.state;
     const user = navigation.getParam('user');
-    const response = await api.get(`/users/${user.login}/starred`);
+    const response = await api.get(`/users/${user.login}/starred`, {
+      params: {
+        page,
+      },
+    });
 
     this.setState({
-      stars: response.data,
+      stars: page > 1 ? [...stars, ...response.data] : response.data,
       loading: false,
+      page,
     });
-  }
-  // Stars is a FlatList
-  // TODO. onEndReached, fetch more starred repos from API
-  // TODO add a loading status
-  // when clicking on a link to repo, open a webview
+  };
+
+  loadMore = async () => {
+    // console.tron.log('Loading more...');
+    const { page } = this.state; // getting the current page
+    const nextPage = page + 1;
+
+    this.loadFavoriteRepos(nextPage);
+  };
 
   render() {
     const { stars, loading } = this.state;
@@ -66,6 +79,8 @@ export default class User extends Component {
           <Loading />
         ) : (
           <Stars
+            onEndReachedThreshold={0.2} // trigger the method in the onEndReached prop when it gets at 20% of the end of list
+            onEndReached={this.loadMore}
             data={stars}
             keyExtractor={star => String(star.id)}
             renderItem={({ item }) => (
