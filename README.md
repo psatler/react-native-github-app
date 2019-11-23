@@ -19,13 +19,16 @@ The documentation for the github stars can be found [here](https://developer.git
 
 ## Some dependecies used
 
-- ESLint, Prettier, EditorConfig
-- Styled Components
-- React Navigation
-- React Native Vector Icons (MaterialIcons)
-- Prop-types
-- Axios
-- Async Storage to save and load saved list of repositories
+- [ESLint](https://github.com/eslint/eslint)
+- [Prettier](https://github.com/prettier/prettier)
+- [EditorConfig](https://github.com/editorconfig/editorconfig)
+- [Styled Components](https://github.com/styled-components/styled-components)
+- [React Navigation](navigation)
+- [React Native Vector Icons](https://github.com/oblador/react-native-vector-icons) (MaterialIcons)
+- [Prop-types](https://github.com/facebook/prop-types)
+- [Axios](https://github.com/axios/axios)
+- [Async Storage](https://github.com/react-native-community/async-storage) to save and load saved list of repositories
+- [React Native Webview](https://github.com/react-native-community/react-native-webview/blob/master/docs/Getting-Started.md) to view the repository's page
 
 ## Features
 
