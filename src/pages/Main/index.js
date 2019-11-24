@@ -63,32 +63,40 @@ class Main extends Component {
       loading: true,
     });
 
-    try {
-      const response = await api.get(`/users/${newUser}`);
-      const data = {
-        name: response.data.name,
-        login: response.data.login,
-        bio: response.data.bio,
-        avatar: response.data.avatar_url,
-      };
+    if (newUser.trim()) {
+      try {
+        const response = await api.get(`/users/${newUser}`);
+        const data = {
+          name: response.data.name,
+          login: response.data.login,
+          bio: response.data.bio,
+          avatar: response.data.avatar_url,
+        };
 
-      this.setState({
-        users: [...users, data],
-        newUser: '',
-        loading: false,
-        error: false,
-      });
-    } catch (err) {
-      // console.tron.log('error', err);
+        this.setState({
+          users: [...users, data],
+          newUser: '',
+          loading: false,
+          error: false,
+        });
+      } catch (err) {
+        // console.tron.log('error', err);
 
+        this.setState({
+          newUser: '',
+          loading: false,
+          error: true,
+        });
+      } finally {
+        Keyboard.dismiss(); // making the keyboard disappear after clicking the plus button
+      }
+    } else {
       this.setState({
-        newUser: '',
         loading: false,
-        error: true,
+        newUser: '',
       });
-    } finally {
-      Keyboard.dismiss(); // making the keyboard disappear after clicking the plus button
     }
+
   };
 
   handleNavigate = user => {
