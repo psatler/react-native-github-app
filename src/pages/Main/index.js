@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Keyboard, ActivityIndicator } from 'react-native';
+import { Keyboard, ActivityIndicator, Alert } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import api from '../../services/api';
@@ -16,11 +16,14 @@ import {
   Bio,
   ProfileButton,
   ProfileButtonText,
+  RemoveButton,
+  ErrorMessage,
+  UpperInnerContainer,
 } from './styles';
 
 class Main extends Component {
   static navigationOptions = {
-    title: 'Users',
+    title: 'Github Profiles',
   };
 
   static propTypes = {
@@ -33,6 +36,7 @@ class Main extends Component {
     newUser: '',
     users: [],
     loading: false,
+    error: false,
   };
 
   async componentDidMount() {
@@ -55,26 +59,36 @@ class Main extends Component {
 
   handleAddUser = async () => {
     const { users, newUser } = this.state;
-    const response = await api.get(`/users/${newUser}`);
-
     this.setState({
       loading: true,
     });
 
-    const data = {
-      name: response.data.name,
-      login: response.data.login,
-      bio: response.data.bio,
-      avatar: response.data.avatar_url,
-    };
+    try {
+      const response = await api.get(`/users/${newUser}`);
+      const data = {
+        name: response.data.name,
+        login: response.data.login,
+        bio: response.data.bio,
+        avatar: response.data.avatar_url,
+      };
 
-    this.setState({
-      users: [...users, data],
-      newUser: '',
-      loading: false,
-    });
+      this.setState({
+        users: [...users, data],
+        newUser: '',
+        loading: false,
+        error: false,
+      });
+    } catch (err) {
+      // console.tron.log('error', err);
 
-    Keyboard.dismiss(); // making the keyboard disappear after clicking the plus button
+      this.setState({
+        newUser: '',
+        loading: false,
+        error: true,
+      });
+    } finally {
+      Keyboard.dismiss(); // making the keyboard disappear after clicking the plus button
+    }
   };
 
   handleNavigate = user => {
@@ -84,34 +98,75 @@ class Main extends Component {
     navigation.navigate('User', { user });
   };
 
+  handleDeleteUser = userToDelete => {
+    // console.tron.log(userToDelete);
+
+    Alert.alert(
+      `Delete ${userToDelete.name}`,
+      'Are you sure you want to delete this profile?',
+      [
+        {
+          text: 'Cancel',
+          onPress: () => {},
+          style: 'cancel',
+        },
+        {
+          text: 'OK',
+          onPress: () => this.deleteUser(userToDelete),
+        },
+      ],
+      {
+        // cancelable: false,
+      }
+    );
+  };
+
+  deleteUser = userToDelete => {
+    const { users } = this.state;
+    const filteredUsers = users.filter(user => user.name !== userToDelete.name);
+
+    this.setState({
+      users: filteredUsers,
+    });
+  }
+
   render() {
-    const { newUser, users, loading } = this.state;
+    const { newUser, users, loading, error } = this.state;
     return (
       <Container>
-        <Form>
-          <Input
-            autoCorrect={false}
-            autoCapitalize="none"
-            placeholder="Add user"
-            value={newUser}
-            onChangeText={text => this.setState({ newUser: text })}
-            returnKeyType="send"
-            onSubmitEditing={this.handleAddUser}
-          />
-          <SubmitButton loading={loading} onPress={this.handleAddUser}>
-            {loading ? (
-              <ActivityIndicator color="#FFF" />
-            ) : (
-              <Icon name="add" size={20} color="#FFF" />
-            )}
-          </SubmitButton>
-        </Form>
+        <UpperInnerContainer>
+          <Form>
+            <Input
+              autoCorrect={false}
+              autoCapitalize="none"
+              placeholder="Add profile"
+              value={newUser}
+              onChangeText={text => this.setState({ newUser: text })}
+              returnKeyType="send"
+              onSubmitEditing={this.handleAddUser}
+              error={error}
+              onFocus={() => this.setState({ error: false })}
+            />
+            <SubmitButton loading={loading} onPress={this.handleAddUser}>
+              {loading ? (
+                <ActivityIndicator color="#FFF" />
+              ) : (
+                <Icon name="add" size={20} color="#FFF" />
+              )}
+            </SubmitButton>
+          </Form>
+
+          {error && <ErrorMessage>User was not found</ErrorMessage>}
+        </UpperInnerContainer>
 
         <List
           data={users}
           keyExtractor={user => user.login}
           renderItem={({ item }) => (
             <User>
+              <RemoveButton onPress={() => this.handleDeleteUser(item)}>
+                <Icon name="delete" size={20} color="#7159c1" />
+              </RemoveButton>
               <Avatar source={{ uri: item.avatar }} />
               <Name>{item.name} </Name>
               <Bio> {item.bio} </Bio>

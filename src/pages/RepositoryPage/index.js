@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { View, Text } from 'react-native';
 
 import { WebView } from 'react-native-webview';
 
@@ -24,14 +23,3 @@ RepositoryPage.propTypes = {
     // navigate: PropTypes.func,
   }).isRequired,
 };
-
-// static navigationOptions = ({ navigation }) => ({
-//   title: navigation.getParam('user').name,
-// });
-
-// static propTypes = {
-//   navigation: PropTypes.shape({
-//     getParam: PropTypes.func,
-//     navigate: PropTypes.func,
-//   }).isRequired,
-// };

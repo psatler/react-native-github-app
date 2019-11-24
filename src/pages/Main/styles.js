@@ -6,11 +6,20 @@ export const Container = styled.View`
   padding: 30px;
 `;
 
-export const Form = styled.View`
-  flex-direction: row;
-  padding-bottom: 20px;
+export const UpperInnerContainer = styled.View`
   border-bottom-width: 1px;
   border-color: #eee;
+  padding-bottom: 20px;
+`;
+
+export const Form = styled.View`
+  flex-direction: row;
+  margin-bottom: 5px;
+`;
+
+export const ErrorMessage = styled.Text`
+  color: #ff6b6b;
+  font-size: 12px;
 `;
 
 export const Input = styled.TextInput.attrs({
@@ -21,7 +30,7 @@ export const Input = styled.TextInput.attrs({
   background: #eee;
   border-radius: 4px;
   padding: 0 15px;
-  border: 1px solid #eee;
+  border: 1px solid ${props => (props.error ? '#ff6b6b' : '#eee')};
 `;
 
 export const SubmitButton = styled(RectButton)`
@@ -84,4 +93,10 @@ export const ProfileButtonText = styled.Text`
   font-weight: bold;
   color: #fff;
   text-transform: uppercase;
+`;
+
+export const RemoveButton = styled(RectButton)`
+  border-radius: 4px;
+  padding: 4px;
+  align-self: flex-end;
 `;
