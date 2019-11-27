@@ -96,7 +96,6 @@ class Main extends Component {
         newUser: '',
       });
     }
-
   };
 
   handleNavigate = user => {
@@ -136,7 +135,7 @@ class Main extends Component {
     this.setState({
       users: filteredUsers,
     });
-  }
+  };
 
   render() {
     const { newUser, users, loading, error } = this.state;

@@ -87,7 +87,7 @@ export default class User extends Component {
   };
 
   openRepoPage = repoInfo => {
-    console.tron.log('repo', repoInfo);
+    // console.tron.log('repo', repoInfo);
     const { navigation } = this.props;
 
     // pass the screen name you want to navigate to
@@ -96,7 +96,7 @@ export default class User extends Component {
 
   render() {
     const { stars, loading, refreshing, error, errorMessage } = this.state;
-    console.tron.log(errorMessage);
+    // console.tron.log(errorMessage);
     const { navigation } = this.props;
     const user = navigation.getParam('user');
     return (
