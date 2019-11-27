@@ -19,9 +19,11 @@ export default function RepositoryPage({ navigation }) {
     <Container>
       {loading && <Loading />}
       <WebView
+        // renderLoading={hideSpinner}
+        // startInLoadingState
         source={{ uri: repoUrl }}
         style={{ flex: 1 }}
-        onLoad={() => hideSpinner()}
+        onLoadEnd={() => hideSpinner()}
       />
     </Container>
   );

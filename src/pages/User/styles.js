@@ -88,3 +88,9 @@ export const Loading = styled.ActivityIndicator.attrs({
   align-items: center;
   margin-top: 20px;
 `;
+
+export const ErrorMessage = styled.Text`
+  /* margin: 0 auto; */
+  text-align: center;
+  font-size: 16px;
+`;

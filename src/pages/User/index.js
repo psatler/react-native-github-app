@@ -14,6 +14,7 @@ import {
   Title,
   Author,
   Loading,
+  ErrorMessage,
 } from './styles';
 
 // Reactotron.log(navigation.getParam('user'));
@@ -33,7 +34,8 @@ export default class User extends Component {
     stars: [],
     loading: true,
     page: 1,
-    refreshing: false, // used by the pull to refresh feature
+    refreshing: false, // used by the pull to refresh feature,
+    error: false,
   };
 
   async componentDidMount() {
@@ -44,18 +46,26 @@ export default class User extends Component {
     const { navigation } = this.props;
     const { stars } = this.state;
     const user = navigation.getParam('user');
-    const response = await api.get(`/users/${user.login}/starred`, {
-      params: {
-        page,
-      },
-    });
 
-    this.setState({
-      stars: page > 1 ? [...stars, ...response.data] : response.data,
-      loading: false,
-      page,
-      refreshing: false,
-    });
+    try {
+      const response = await api.get(`/users/${user.login}/starred`, {
+        params: {
+          page,
+        },
+      });
+      this.setState({
+        stars: page > 1 ? [...stars, ...response.data] : response.data,
+        loading: false,
+        page,
+        refreshing: false,
+      });
+    } catch (error) {
+      this.setState({
+        loading: false,
+        error: true,
+        errorMessage: error && String(error.message),
+      });
+    }
   };
 
   loadMore = () => {
@@ -85,7 +95,8 @@ export default class User extends Component {
   };
 
   render() {
-    const { stars, loading, refreshing } = this.state;
+    const { stars, loading, refreshing, error, errorMessage } = this.state;
+    console.tron.log(errorMessage);
     const { navigation } = this.props;
     const user = navigation.getParam('user');
     return (
@@ -95,10 +106,9 @@ export default class User extends Component {
           <Name>{user.name} </Name>
           <Bio> {user.bio} </Bio>
         </Header>
-
-        {loading ? (
-          <Loading />
-        ) : (
+        {loading && <Loading />}
+        {error && <ErrorMessage>{errorMessage}</ErrorMessage>}
+        {!loading && !error && (
           <Stars
             onRefresh={this.pullToRefresh}
             refreshing={refreshing}
