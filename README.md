@@ -49,11 +49,9 @@ PS: This assumes you have the `react-native cli` installed. You might need it to
 
 You can check some of the features at the animations below:
 
-<img src="./src/assets/first.gif" width="170" height="400" />
-
-<img src="./src/assets/second.gif" width="170" height="400" />
-
-<img src="./src/assets/third.gif" width="170" height="400" />
+![first](/src/assets/first.gif)
+![second](/src/assets/second.gif)
+![third](/src/assets/third.gif)
 
 ## License
 
