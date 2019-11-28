@@ -17,6 +17,17 @@ about the repositories inserted by the user.
 On the profile page it is displayed the repositories the user has starred on Github.
 The documentation for the github stars can be found [here](https://developer.github.com/v3/activity/starring/#list-repositories-being-starred).
 
+## How to run
+
+```
+git clone https://github.com/psatler/react-native-github-app
+cd react-native-github-app
+yarn (or npm install)
+yarn start
+```
+
+PS: This assumes you have the `react-native cli` installed. You might need it to run `react-native run-android (or run-ios)` before `yarn start`.
+
 ## Some dependecies used
 
 - [ESLint](https://github.com/eslint/eslint)
@@ -35,6 +46,14 @@ The documentation for the github stars can be found [here](https://developer.git
 - Infinite scroll on the details page listing the user's favorite repositories (starred ones)
 - Pull to refresh
 - Open the favorite repo in a webview to get more details of it
+
+You can check some of the features at the animations below:
+
+<img src="./src/assets/first.gif" width="170" height="400" />
+
+<img src="./src/assets/second.gif" width="170" height="400" />
+
+<img src="./src/assets/third.gif" width="170" height="400" />
 
 ## License
 
