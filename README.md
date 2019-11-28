@@ -17,6 +17,13 @@ about the repositories inserted by the user.
 On the profile page it is displayed the repositories the user has starred on Github.
 The documentation for the github stars can be found [here](https://developer.github.com/v3/activity/starring/#list-repositories-being-starred).
 
+## Table of Contents
+
+- [How to Run](#how-to-run)
+- [Some dependecies used](#some-dependecies-used)
+- [Features](#features)
+- [License](#license)
+
 ## How to run
 
 ```
